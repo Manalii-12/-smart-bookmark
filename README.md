@@ -1,36 +1,192 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🔖 Smart Bookmark App
 
-## Getting Started
+A full-stack bookmark manager built as part of a technical selection process.
+Users can securely save, manage, and access bookmarks with real-time updates.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Live Demo
+
+👉https://smart-bookmark-git-main-manali-patkars-projects.vercel.app/
+
+---
+
+## 💻 GitHub Repository
+
+👉 https://github.com/Manalii-12/-smart-bookmark
+
+---
+
+# ✨ Features
+
+* 🔐 Google OAuth Authentication
+* ➕ Add Bookmarks (Title + URL)
+* 🗑️ Delete Bookmarks
+* 👤 User-specific private data
+* ⚡ Realtime sync across tabs
+* 📋 Copy bookmark link
+* 🔍 Search bookmarks
+* 🎨 Custom themed UI (Earthy palette)
+* ☁️ Deployed on Vercel
+
+---
+
+# 🧰 Tech Stack
+
+| Layer      | Tech                  |
+| ---------- | --------------------- |
+| Frontend   | Next.js (App Router)  |
+| Styling    | Tailwind CSS          |
+| Backend    | Supabase              |
+| Database   | PostgreSQL (Supabase) |
+| Auth       | Google OAuth          |
+| Realtime   | Supabase Realtime     |
+| Deployment | Vercel                |
+
+---
+
+# 🗄️ Database Schema
+
+**Table:** `bookmarks`
+
+| Column     | Type      |
+| ---------- | --------- |
+| id         | uuid      |
+| user_id    | uuid      |
+| title      | text      |
+| url        | text      |
+| created_at | timestamp |
+
+Row Level Security (RLS) ensures users access only their own bookmarks.
+
+---
+
+# ⚙️ Environment Variables
+
+Create `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+# 🧩 Challenges Faced & Solutions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 1️⃣ Google OAuth Redirect Error
 
-## Learn More
+**Problem:**
+Encountered `redirect_uri_mismatch` while logging in.
 
-To learn more about Next.js, take a look at the following resources:
+**Cause:**
+Supabase callback URL was not added in Google Cloud OAuth settings.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Solution:**
+Added redirect URI:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+https://PROJECT_ID.supabase.co/auth/v1/callback
+```
 
-## Deploy on Vercel
+Login worked successfully afterward.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 2️⃣ Row Level Security Blocking Inserts
+
+**Problem:**
+Bookmarks were not inserting into the database.
+
+**Cause:**
+RLS was enabled but policies were missing.
+
+**Solution:**
+Created policies allowing users to access only their data:
+
+```sql
+auth.uid() = user_id
+```
+
+Applied to SELECT, INSERT, DELETE.
+
+---
+
+## 3️⃣ Realtime Updates Not Working
+
+**Problem:**
+Bookmarks added in one tab didn’t reflect in another.
+
+**Solution:**
+
+* Enabled Realtime replication in Supabase.
+* Subscribed using `postgres_changes`.
+* Filtered by logged-in `user_id`.
+
+Now bookmarks sync instantly.
+
+---
+
+## 4️⃣ GitHub Push Errors
+
+**Problem:**
+Faced:
+
+```
+src refspec main does not match any
+```
+
+**Cause:**
+
+* Local branch wasn’t `main`.
+* Wrong GitHub account credentials.
+
+**Solution:**
+
+* Renamed branch to `main`.
+* Cleared Credential Manager.
+* Re-authenticated with correct GitHub account.
+
+---
+
+## 5️⃣ UI Theme Consistency
+
+**Problem:**
+Initial UI had inconsistent colors.
+
+**Solution:**
+Applied a cohesive earthy palette:
+
+```
+#8DA683
+#BE8F3C
+#D99D29
+#F2DCB1
+#DC8920
+```
+
+Styled buttons, cards, and layout accordingly.
+
+---
+
+# 📈 Future Improvements
+
+* Bookmark categories / tags
+* Drag-and-drop sorting
+* Dark mode toggle
+* Bookmark preview thumbnails
+* Shareable bookmark collections
+
+---
+
+# 👩‍💻 Author
+
+**Manali**
+Built as part of a technical selection task.
+
+---
+
+# 🙌 Acknowledgment
+
+Thank you for reviewing this project.
+Looking forward to your feedback 🚀
