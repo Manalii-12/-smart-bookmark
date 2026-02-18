@@ -7,7 +7,7 @@ Users can securely save, manage, and access bookmarks with real-time updates.
 
 ## 🚀 Live Demo
 
-👉https://smart-bookmark-5j3nok73y-manali-patkars-projects.vercel.app?_vercel_share=WYqEHRRa7gWmi53Hwf27TgPTy7yEwmmE
+👉https://smart-bookmark-red.vercel.app/
 
 ---
 
